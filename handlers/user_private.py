@@ -21,7 +21,7 @@ async def about_cmd(msg: types.Message):
 async def payment_cmd(msg: types.Message):
     await msg.answer("пиздеж")
 
-@user_private_router(F.text.lower().contains("команды"))
+@user_private_router.message(F.text.lower().contains("команды"))
 async def help(msg: types.Message):
     await msg.answer("команды:\
 /start - поздороваться с ботом\
