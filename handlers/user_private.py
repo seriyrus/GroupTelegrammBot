@@ -27,5 +27,4 @@ async def shipping_cmd(msg: types.Message):
 
 @user_private_router.message(F.text)
 async def start_cmd(msg: types.Message):
-    await msg.answer("Магический фильтр")
-   
+    await msg.answer("Магический фильтр")  
