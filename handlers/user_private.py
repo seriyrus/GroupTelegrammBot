@@ -21,6 +21,16 @@ async def about_cmd(msg: types.Message):
 async def payment_cmd(msg: types.Message):
     await msg.answer("Оплата:")
 
+@user_private_router(F.text.lower().contains("команды"))
+async def help(msg: types.Message):
+    await msg.answer("команды:\
+/start - поздороваться с ботом\
+/menu - посмотреть меню\
+/about - о боте\
+/payment - оплата\
+/shipping - доставка\
+")
+
 @user_private_router.message((F.text.lower().contains('доставк')) | (F.text.lower() == 'варианты доставки'))
 @user_private_router.message(Command('shipping'))
 async def shipping_cmd(msg: types.Message):
