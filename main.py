@@ -4,6 +4,7 @@ from aiogram.types import BotCommandScopeAllPrivateChats
 from dotenv import find_dotenv, load_dotenv
 from common.bot_commands_lists import private
 from handlers.user_private import user_private_router
+from handlers.user_group import user_group_router
 
 
 
@@ -14,7 +15,7 @@ ALLOWED_UPD = ["message", "edited_message"]
 bot = Bot(os.getenv("TOKEN"), parse_mode="HTML")
 dp = Dispatcher()
 
-dp.include_router(user_private_router)
+dp.include_routers(user_private_router, user_group_router)
 
 
 
