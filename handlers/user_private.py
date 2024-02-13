@@ -1,11 +1,11 @@
-from aiogram.filters import Command
+from aiogram.filters import Command, or_f
 from aiogram import types, Router, F
 
 
 user_private_router = Router()
 
 
-@user_private_router.message(Command('menu'))
+@user_private_router.message(or_f(Command('menu'), F.text.lower() == "меню"))
 async def menu_cmd(msg: types.Message):
     await msg.answer("Меню:")
 
@@ -21,10 +21,7 @@ async def about_cmd(msg: types.Message):
 async def payment_cmd(msg: types.Message):
     await msg.answer("Оплата:")
 
+@user_private_router.message((F.text.lower().contains('доставк')) | (F.text.lower() == 'варианты доставки'))
 @user_private_router.message(Command('shipping'))
 async def shipping_cmd(msg: types.Message):
     await msg.answer("Доставка:")
-
-@user_private_router.message(F.text)
-async def start_cmd(msg: types.Message):
-    await msg.answer("Магический фильтр")  
