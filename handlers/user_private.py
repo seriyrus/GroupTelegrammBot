@@ -15,11 +15,11 @@ async def start_cmd(msg: types.Message):
 
 @user_private_router.message(Command('about'))
 async def about_cmd(msg: types.Message):
-    await msg.answer("О нас:")
+    await msg.answer("бот в котором можно посмотреть актуальное расписание")
 
 @user_private_router.message(Command('payment'))
 async def payment_cmd(msg: types.Message):
-    await msg.answer("Оплата:")
+    await msg.answer("пиздеж")
 
 @user_private_router(F.text.lower().contains("команды"))
 async def help(msg: types.Message):
@@ -34,4 +34,4 @@ async def help(msg: types.Message):
 @user_private_router.message((F.text.lower().contains('доставк')) | (F.text.lower() == 'варианты доставки'))
 @user_private_router.message(Command('shipping'))
 async def shipping_cmd(msg: types.Message):
-    await msg.answer("Доставка:")
+    await msg.answer("на тот свет доставка бесплатная")
