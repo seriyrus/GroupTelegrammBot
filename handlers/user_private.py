@@ -1,5 +1,5 @@
 from aiogram.filters import Command
-from aiogram import types, Router
+from aiogram import types, Router, F
 
 
 user_private_router = Router()
@@ -25,6 +25,7 @@ async def payment_cmd(msg: types.Message):
 async def shipping_cmd(msg: types.Message):
     await msg.answer("Доставка:")
 
-@user_private_router.message()
+@user_private_router.message(F.text)
 async def start_cmd(msg: types.Message):
-    await msg.answer(msg.text)
+    await msg.answer("Магический фильтр")
+   
