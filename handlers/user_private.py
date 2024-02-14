@@ -1,5 +1,6 @@
 from aiogram.filters import Command, or_f
 from aiogram import types, Router, F
+import json, datetime 
 
 
 user_private_router = Router()
@@ -15,16 +16,24 @@ async def start_cmd(msg: types.Message):
 
 @user_private_router.message(Command('about'))
 async def about_cmd(msg: types.Message):
-    await msg.answer("бот в котором можно посмотреть актуальное расписание")
+    about_text="""бот в котором можно посмотреть актуальное расписание,\
+    текущие объявления и график дежурств!"""
+    await msg.answer(about_text)
 
 @user_private_router.message(Command('check_objavl'))
 async def check_objavl_cmd(msg: types.Message):
-    await msg.answer("Объявления")
+    await msg.answer("Текущие Объявления")
 
 @user_private_router.message(F.text.lower().contains("команды"))
 async def help(msg: types.Message):
-    await msg.answer("команды: /start - поздороваться с ботом /menu - посмотреть меню /about - о боте /check_rasp - оплата /check_objavl - доставка")
+    banner = """команды: 
+    /start - поздороваться с ботом 
+    /menu - посмотреть меню
+    /about - о боте 
+    /check_rasp - посмотреть расписание 
+    /check_objavl - Посмотреть объявления"""
+    await msg.answer(banner)
 
 @user_private_router.message(Command('check_rasp'))
 async def check_rasp_cmd(msg: types.Message):
-    await msg.answer("расписание")
+    await msg.answer("расписание на сегодня")
