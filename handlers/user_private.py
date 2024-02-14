@@ -1,6 +1,7 @@
 from aiogram.filters import Command, or_f
 from aiogram import types, Router, F
 import json, datetime 
+import rasp
 
 
 user_private_router = Router()
@@ -34,6 +35,9 @@ async def help(msg: types.Message):
     /check_objavl - Посмотреть объявления"""
     await msg.answer(banner)
 
+@user_private_router.message(F.text.contains("расписание"))
 @user_private_router.message(Command('check_rasp'))
 async def check_rasp_cmd(msg: types.Message):
-    await msg.answer("расписание на сегодня")
+    date = datetime.datetime.now().date()
+    wd = date.weekday()
+    await msg.answer(rasp.create_text_rasp(wd))
