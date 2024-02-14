@@ -21,5 +21,5 @@ def clean_text(text: str):
 async def start_cmd(msg: types.Message):
     if restricted_words.intersection(msg.text.lower().split()):
         await msg.delete()
-        await msg.answer("Ай-ай по попке")
-        #await msg.chat.ban(msg.from_user.id)
+        await msg.answer("Без мата пж")
+        #await msg.chat.ban(msg.from_user.id) 

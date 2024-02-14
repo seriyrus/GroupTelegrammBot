@@ -17,15 +17,14 @@ async def start_cmd(msg: types.Message):
 async def about_cmd(msg: types.Message):
     await msg.answer("бот в котором можно посмотреть актуальное расписание")
 
-@user_private_router.message(Command('payment'))
-async def payment_cmd(msg: types.Message):
-    await msg.answer("пиздеж")
+@user_private_router.message(Command('check_objavl'))
+async def check_objavl_cmd(msg: types.Message):
+    await msg.answer("Объявления")
 
 @user_private_router.message(F.text.lower().contains("команды"))
 async def help(msg: types.Message):
-    await msg.answer("команды: /start - поздороваться с ботом /menu - посмотреть меню /about - о боте /payment - оплата /shipping - доставка")
+    await msg.answer("команды: /start - поздороваться с ботом /menu - посмотреть меню /about - о боте /check_rasp - оплата /check_objavl - доставка")
 
-@user_private_router.message((F.text.lower().contains('доставк')) | (F.text.lower() == 'варианты доставки'))
-@user_private_router.message(Command('shipping'))
-async def shipping_cmd(msg: types.Message):
-    await msg.answer("на тот свет доставка бесплатная")
+@user_private_router.message(Command('check_rasp'))
+async def check_rasp_cmd(msg: types.Message):
+    await msg.answer("расписание")
