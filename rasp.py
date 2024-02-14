@@ -65,4 +65,5 @@ def load_rasp():
         raspisanie.clear()
         raspisanie = json.load(rasp)
         rasp.close()
-        
+
+
