@@ -54,8 +54,15 @@ raspisanie = {
         },
 }
 
-with open('raspisanie.json', 'w') as rasp:
-    json.dump(raspisanie,rasp)
-    rasp.close()
+def dump_rasp():
+    with open('raspisanie.json', 'w') as rasp:
+        json.dump(raspisanie,rasp)
+        rasp.close()
 
 
+def load_rasp():
+    with open('raspisanie.json', 'r') as rasp:
+        raspisanie.clear()
+        raspisanie = json.load(rasp)
+        rasp.close()
+        
