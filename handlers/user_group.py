@@ -1,4 +1,3 @@
-import imp
 from aiogram.filters import Command, or_f
 from aiogram import types, Router, F
 from string import punctuation
