@@ -15,7 +15,8 @@ ALLOWED_UPD = ["message", "edited_message"]
 bot = Bot(os.getenv("TOKEN"), parse_mode="HTML")
 dp = Dispatcher()
 
-dp.include_routers(user_private_router, user_group_router)
+dp.include_router(user_group_router)
+dp.include_router(user_private_router)
 
 
 

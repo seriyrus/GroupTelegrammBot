@@ -5,6 +5,7 @@ import rasp
 
 
 user_private_router = Router()
+user_private_router.message.filter()
 
 
 @user_private_router.message(or_f(Command('menu'), F.text.lower() == "меню"))
