@@ -1,10 +1,15 @@
 from aiogram.filters import Command, or_f 
 from aiogram import types, Router, F
+from filters.chat_types import ChatTypeFilter
+
+import json, datetime 
+import rasp
+
 from string import punctuation
 
 
 user_group_router = Router()
-user_group_router.message.filter()
+user_group_router.message.filter(ChatTypeFilter(['group', 'supergroup']))
 
 
 
@@ -28,3 +33,11 @@ async def start_cmd(msg: types.Message):
         await msg.delete()
         await msg.answer(f"{msg.from_user.first_name}, Без мата пж!")
         #await msg.chat.ban(msg.from_user.id) 
+
+
+@user_group_router.message(F.text.contains("расписание"))
+@user_group_router.message(Command('check_rasp'))
+async def check_rasp_cmd(msg: types.Message):
+    date = datetime.datetime.now().date()
+    wd = date.weekday()
+    await msg.answer(rasp.create_text_rasp(wd))
