@@ -26,6 +26,7 @@ async def check_objavl_cmd(msg: types.Message):
     await msg.answer("Текущие Объявления")
 
 @user_private_router.message(F.text.lower().contains("команды"))
+@user_private_router.message(Command('check_rasp'))
 async def help(msg: types.Message):
     banner = """команды: 
     /start - поздороваться с ботом 
@@ -34,4 +35,3 @@ async def help(msg: types.Message):
     /check_rasp - посмотреть расписание 
     /check_objavl - Посмотреть объявления"""
     await msg.answer(banner)
-
