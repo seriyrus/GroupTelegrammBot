@@ -1,9 +1,10 @@
 from aiogram.filters import Command
 from aiogram import types, Router, F
-from filters.chat_types import ChatTypeFilter
+from filters.chat_types import ChatTypeFilter, restricted_words
 
 import datetime 
 import rasp
+import aioschedule, asyncio
 
 from string import punctuation
 
@@ -11,26 +12,39 @@ from string import punctuation
 user_group_router = Router()
 user_group_router.message.filter(ChatTypeFilter(['group', 'supergroup']))
 
+dej_index = 0
 
-
-restricted_words = {
-'недоразвитый',"пидр", "гей","тварь",'блядь', 
-'ебать', 'хуй', 'пизда', 'нахуй', 'сука', 'ебаный', 'ебучий', 'ебало', 'ебло', 
-'шлюха','шалава','шлюхи','завались','блять','пидорас','еблан','ублюдок','хуесос',
-'нахуя','схуяли','похую','по хую','заебало','сдохну','сдохни','сдохнуть','убейся',
-'ахуе','бля','пиздос','гандон','охуел','чмо','ебал','похуй', 'пздц','пидор',
-}
-
+restricted_words = restricted_words
 
 def clean_text(text: str):
     return text.translate(str.maketrans('', '', punctuation))
+
+async def scheduler():
+    aioschedule.every().day.at("6:00").do(check_rasp_cmd)
+    aioschedule.every().day.at("12:10").do(show_dej)
+    while True:
+        await aioschedule.run_pending()
+        await asyncio.sleep(1)
+        
+async def on_startup(dp): 
+    asyncio.create_task(scheduler())
+
+@user_group_router.message(F.text.contains("расписание на завтра"))
+@user_group_router.message(Command('check_rasp_tomorrow'))
+async def check_rasp_tomorrow_cmd(msg: types.Message):
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    wd = tomorrow.weekday()
+    print(wd)
+    await msg.answer(rasp.create_text_rasp(wd,"расписание на завтра\n"))
+
 
 @user_group_router.message(F.text.contains("расписание"))
 @user_group_router.message(Command('check_rasp'))
 async def check_rasp_cmd(msg: types.Message):
     date = datetime.datetime.now().date()
     wd = date.weekday()
-    await msg.answer(rasp.create_text_rasp(wd))
+    print(wd)
+    await msg.answer(rasp.create_text_rasp(wd,"расписание на сегодня\n"))
 
 @user_group_router.edited_message()
 @user_group_router.message()
@@ -39,3 +53,14 @@ async def start_cmd(msg: types.Message):
         await msg.delete()
         await msg.answer(f"{msg.from_user.first_name}, Без мата пж!")
         #await msg.chat.ban(msg.from_user.id) 
+
+""" def dej_index_increment(dej_index): return dej_index+=1 """
+
+@user_group_router.message(F.text.contains("дежурства"))
+@user_group_router.message(Command('show_dej'))
+async def show_dej(msg: types.Message):
+    if dej_index > 8:
+        dej_index = 0
+    else:
+        """ aioschedule.every().day.at("00:00").do( dej_index_increment) """
+        await msg.answer(rasp.create_rasp_dej(dej_index))

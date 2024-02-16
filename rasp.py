@@ -70,8 +70,24 @@ def load_rasp():
         raspisanie = json.load(rasp)
         rasp.close()
 
-def create_text_rasp(weekday):
-    banner_text_rasp = "расписание на сегодня:\n"
+def create_text_rasp(weekday, banner_text_rasp):
     for el in raspisanie[weekday].items():
         banner_text_rasp += f"{el[0]}: {el[1][0]} время: {el[1][1]}\n"
     return banner_text_rasp
+
+
+dejurstva = {
+    0:["Власов","Гречанников","Лобанов"],
+    1:["Галкина","Громова","Павлова"],
+    2:["Козьма","Опалько","Фролова","Постоленко"],
+    3:["Головастова","Оленич","Цыплакова"],
+    4:["Аверкин","Королев","Сабуров"],
+    5:["Агафонов","Лисов","Неделько"],
+    6:["Иванников","Исаев","Метелев","Никулин"],
+    7:["Данильченко","Зелепугин","Крутов"],
+    8:["Караченец","Мнацаканян","Чуриков"],
+    }
+
+def create_rasp_dej(dej_index):
+    return f"дежурные на сегодня:\n
+{[el+"\n" for el in dejurstva[dej_index]]}"
