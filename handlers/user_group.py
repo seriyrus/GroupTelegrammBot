@@ -21,7 +21,7 @@ def clean_text(text: str):
 
 async def scheduler():
     aioschedule.every().day.at("6:00").do(check_rasp_cmd)
-    aioschedule.every().day.at("12:10").do(show_dej)
+    aioschedule.every().day.at("12:10").do(show_dej_schedule)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
@@ -56,11 +56,16 @@ async def start_cmd(msg: types.Message):
 
 """ def dej_index_increment(dej_index): return dej_index+=1 """
 
-@user_group_router.message(F.text.contains("дежурства"))
-@user_group_router.message(Command('show_dej'))
-async def show_dej(msg: types.Message):
+@user_group_router.message(Command('show_dej_schedule'))
+async def show_dej_schedule(msg: types.Message):
     if dej_index > 8:
         dej_index = 0
     else:
         await msg.answer(rasp.create_rasp_dej(dej_index))
         dej_index += 1
+
+@user_group_router.message(F.text.contains("дежурства"))
+@user_group_router.message(Command('show_dej'))
+async def show_dej(msg: types.Message):
+        await msg.answer(rasp.create_rasp_dej(dej_index))
+        
