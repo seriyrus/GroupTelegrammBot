@@ -29,7 +29,8 @@ async def scheduler():
 async def on_startup(dp): 
     asyncio.create_task(scheduler())
 
-@user_group_router.message(F.text.contains("расписание на завтра"))
+@user_group_router.edited_message(F.text.lower().contains("расписание на завтра"))
+@user_group_router.message(F.text.lower().contains("расписание на завтра"))
 @user_group_router.message(Command('check_rasp_tomorrow'))
 async def check_rasp_tomorrow_cmd(msg: types.Message):
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
@@ -38,7 +39,8 @@ async def check_rasp_tomorrow_cmd(msg: types.Message):
     await msg.answer(rasp.create_text_rasp(wd,"расписание на завтра\n"))
 
 
-@user_group_router.message(F.text.contains("расписание"))
+@user_group_router.edited_message(F.text.lower().contains("расписание"))
+@user_group_router.message(F.text.lower().contains("расписание"))
 @user_group_router.message(Command('check_rasp'))
 async def check_rasp_cmd(msg: types.Message):
     date = datetime.datetime.now().date()
@@ -54,18 +56,17 @@ async def start_cmd(msg: types.Message):
         await msg.answer(f"{msg.from_user.first_name}, Без мата пж!")
         #await msg.chat.ban(msg.from_user.id) 
 
-""" def dej_index_increment(dej_index): return dej_index+=1 """
+@user_group_router.edited_message(F.text.lower().contains("дежурства"))
+@user_group_router.message(F.text.lower().contains("дежурства"))
+@user_group_router.message(Command('show_dej'))
+async def show_dej(msg: types.Message):
+        banner_dej = "дежурные на сегодня:\n"
+        await msg.answer(rasp.create_rasp_dej(dej_index,banner_dej))
 
 @user_group_router.message(Command('show_dej_schedule'))
 async def show_dej_schedule(msg: types.Message):
-    if dej_index > 8:
+    if dej_index > 10:
         dej_index = 0
     else:
         await msg.answer(rasp.create_rasp_dej(dej_index))
         dej_index += 1
-
-@user_group_router.message(F.text.contains("дежурства"))
-@user_group_router.message(Command('show_dej'))
-async def show_dej(msg: types.Message):
-        await msg.answer(rasp.create_rasp_dej(dej_index))
-        
