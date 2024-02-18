@@ -62,5 +62,5 @@ async def show_dej(msg: types.Message):
     if dej_index > 8:
         dej_index = 0
     else:
-        """ aioschedule.every().day.at("00:00").do( dej_index_increment) """
         await msg.answer(rasp.create_rasp_dej(dej_index))
+        dej_index += 1
