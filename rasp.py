@@ -91,5 +91,6 @@ dejurstva = {
 }
 
 def create_rasp_dej(dej_index,banner_dej):
-    banner_dej += f"{[el for el in dejurstva[dej_index]]}"
+    for el in dejurstva[dej_index]:
+        banner_dej += el
     return banner_dej

@@ -12,6 +12,7 @@ from string import punctuation
 user_group_router = Router()
 user_group_router.message.filter(ChatTypeFilter(['group', 'supergroup']))
 
+global dej_index
 dej_index = 0
 
 restricted_words = restricted_words
@@ -45,7 +46,6 @@ async def check_rasp_tomorrow_cmd(msg: types.Message):
 async def check_rasp_cmd(msg: types.Message):
     date = datetime.datetime.now().date()
     wd = date.weekday()
-    print(wd)
     await msg.answer(rasp.create_text_rasp(wd,"расписание на сегодня\n"))
 
 @user_group_router.edited_message()
@@ -56,14 +56,13 @@ async def start_cmd(msg: types.Message):
         await msg.answer(f"{msg.from_user.first_name}, Без мата пж!")
         #await msg.chat.ban(msg.from_user.id) 
 
-@user_group_router.edited_message(F.text.lower().contains("дежурства"))
-@user_group_router.message(F.text.lower().contains("дежурства"))
+@user_group_router.edited_message(F.text.lower().contains("дежурств"))
+@user_group_router.message(F.text.lower().contains("дежурств"))
 @user_group_router.message(Command('show_dej'))
 async def show_dej(msg: types.Message):
         banner_dej = "дежурные на сегодня:\n"
         await msg.answer(rasp.create_rasp_dej(dej_index,banner_dej))
 
-@user_group_router.message(Command('show_dej_schedule'))
 async def show_dej_schedule(msg: types.Message):
     if dej_index > 10:
         dej_index = 0
