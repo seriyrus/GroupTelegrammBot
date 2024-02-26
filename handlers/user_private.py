@@ -1,6 +1,7 @@
 from aiogram.filters import Command, or_f
 from aiogram import types, Router, F
 from filters.chat_types import ChatTypeFilter
+from keyboards.reply import start_kb
 
 
 user_private_router = Router()
@@ -13,7 +14,7 @@ async def menu_cmd(msg: types.Message):
 
 @user_private_router.message(Command('start'))
 async def start_cmd(msg: types.Message):
-    await msg.answer("Здравствуйте!")
+    await msg.answer("Здравствуйте!", reply_markup=start_kb)
 
 @user_private_router.message(Command('about'))
 async def about_cmd(msg: types.Message):
@@ -21,17 +22,17 @@ async def about_cmd(msg: types.Message):
     текущие объявления и график дежурств!"""
     await msg.answer(about_text)
 
+@user_private_router.message(F.text.lower().contains("объявления"))
 @user_private_router.message(Command('check_objavl'))
 async def check_objavl_cmd(msg: types.Message):
     await msg.answer("Текущие Объявления")
 
-@user_private_router.message(F.text.lower().contains("команды"))
+@user_private_router.message(F.text.lower().contains("расписание"))
 @user_private_router.message(Command('check_rasp'))
-async def help(msg: types.Message):
-    banner = """команды: 
-    /start - поздороваться с ботом 
-    /menu - посмотреть меню
-    /about - о боте 
-    /check_rasp - посмотреть расписание 
-    /check_objavl - Посмотреть объявления"""
-    await msg.answer(banner)
+async def check_rasp(msg: types.Message):
+    await msg.answer("расписание:") 
+   
+@user_private_router.message(F.text.lower().contains("дежурные"))
+@user_private_router.message(Command('check_dej'))
+async def check_dej(msg: types.Message):
+    await msg.answer("Дежурные:")    

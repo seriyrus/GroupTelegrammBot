@@ -1,4 +1,5 @@
 import asyncio, os
+from imaplib import Commands
 from aiogram import Dispatcher, Bot, types
 from aiogram.types import BotCommandScopeAllPrivateChats
 from dotenv import find_dotenv, load_dotenv
@@ -19,12 +20,10 @@ dp = Dispatcher()
 dp.include_routers(user_group_router,user_private_router)
 
 
-
-
-
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
-    await bot.set_my_commands(commands=private, scope = BotCommandScopeAllPrivateChats() )
+    #await bot.set_my_commands(commands=private, scope = BotCommandScopeAllPrivateChats() )
+    #await bot.delete_my_commands(scope = BotCommandScopeAllPrivateChats() )
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPD)
 
 asyncio.run(main()) 
