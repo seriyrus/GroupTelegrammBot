@@ -9,6 +9,7 @@ start_kb = ReplyKeyboardMarkup(
             KeyboardButton(text="Объявления"),
             KeyboardButton(text="Расписание"),
             KeyboardButton(text="Дежурные"),
+            KeyboardButton(text="About"),
         ],
     ],
 )
